@@ -1,6 +1,6 @@
-provider "aws" {
-  region = "us-west-2"
-}
+# provider "aws" {
+#   region = "us-west-2"
+# }
 
 resource "aws_instance" "this" {
   ami           = data.aws_ami.al2.id
