@@ -211,7 +211,7 @@ Pipelines must securely access:
 backend "s3" {
   bucket         = "company-terraform-state"
   key            = "prod/vpc.tfstate"
-  region         = "us-east-1"
+  region         = "us-west-2"
   dynamodb_table = "terraform-locks"
 }
 ```

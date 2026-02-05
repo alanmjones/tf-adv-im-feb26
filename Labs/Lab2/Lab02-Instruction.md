@@ -122,7 +122,7 @@ Create `infra/main.tf`:
 
 ```hcl
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 # ❌ BAD: Missing encryption, missing tags
@@ -422,7 +422,7 @@ Update `infra/main.tf`:
 
 ```hcl
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 locals {

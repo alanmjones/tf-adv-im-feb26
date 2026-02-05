@@ -105,7 +105,7 @@ terraform {
   backend "s3" {
     bucket         = "cloudapp-tf-state"
     key            = "staging/terraform.tfstate"
-    region         = "us-east-1"
+    region         = "us-west-2"
     dynamodb_table = "cloudapp-tf-locks"
     encrypt        = true
   }
@@ -121,7 +121,7 @@ terraform {
   backend "s3" {
     bucket         = "cloudapp-tf-state"
     key            = "prod/terraform.tfstate"
-    region         = "us-east-1"
+    region         = "us-west-2"
     dynamodb_table = "cloudapp-tf-locks"
     encrypt        = true
   }
@@ -155,7 +155,7 @@ EOF
 
 ```bash
 cat > envs/staging/variables.tf << 'EOF'
-variable "aws_region" { type = string  default = "us-east-1" }
+variable "aws_region" { type = string  default = "us-west-2" }
 variable "env"        { type = string  default = "staging" }
 variable "app_version"{ type = string  default = "v3.0" }
 
@@ -170,7 +170,7 @@ EOF
 
 ```bash
 cat > envs/prod/variables.tf << 'EOF'
-variable "aws_region" { type = string  default = "us-east-1" }
+variable "aws_region" { type = string  default = "us-west-2" }
 variable "env"        { type = string  default = "prod" }
 variable "app_version"{ type = string  default = "v3.0" }
 
@@ -185,7 +185,7 @@ EOF
 
 ```bash
 cat > envs/staging/terraform.tfvars << 'EOF'
-aws_region   = "us-east-1"
+aws_region   = "us-west-2"
 env          = "staging"
 app_version  = "v3.0"
 instance_type= "t3.micro"
@@ -199,7 +199,7 @@ EOF
 
 ```bash
 cat > envs/prod/terraform.tfvars << 'EOF'
-aws_region   = "us-east-1"
+aws_region   = "us-west-2"
 env          = "prod"
 app_version  = "v3.0"
 instance_type= "t3.micro"
@@ -489,7 +489,7 @@ pipeline {
   }
 
   environment {
-    AWS_REGION = "us-east-1"
+    AWS_REGION = "us-west-2"
   }
 
   stages {

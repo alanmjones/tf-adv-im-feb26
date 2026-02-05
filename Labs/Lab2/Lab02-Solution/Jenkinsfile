@@ -3,7 +3,6 @@ pipeline {
 
   options {
     timestamps()
-    ansiColor('xterm')
   }
 
   environment {
@@ -36,38 +35,47 @@ pipeline {
       }
     }
 
-    stage("tflint") {
+    // stage("tflint") {
+    //   steps {
+    //     sh """
+    //       cd ${TF_DIR}
+    //       # Run tflint via docker (no local install needed)
+    //       docker run --rm \
+    //         -v "$PWD:/data" -w /data \
+    //         ghcr.io/terraform-linters/tflint:latest \
+    //         --init
+
+    //       docker run --rm \
+    //         -v "$PWD:/data" -w /data \
+    //         ghcr.io/terraform-linters/tflint:latest \
+    //         --recursive
+    //     """
+    //   }
+    // }
+    stage("Terraform plan") {
       steps {
         sh """
           cd ${TF_DIR}
-          # Run tflint via docker (no local install needed)
-          docker run --rm \
-            -v "$PWD:/data" -w /data \
-            ghcr.io/terraform-linters/tflint:latest \
-            --init
+          terraform plan   -out=tfplan
+          terraform show -json tfplan > tfplan.json
 
-          docker run --rm \
-            -v "$PWD:/data" -w /data \
-            ghcr.io/terraform-linters/tflint:latest \
-            --recursive
         """
       }
     }
-
     stage("checkov") {
       steps {
         sh """
-          # Run checkov via docker and scan terraform directory
           docker run --rm \
-            -v "$PWD:/repo" -w /repo \
+            -v "${WORKSPACE}:/repo" -w /repo \
             bridgecrew/checkov:latest \
-            -d ${TF_DIR} \
-            --config-file .checkov.yml
+            -d /repo/infra \
+            --config-file /repo/infra/.checkov.yml \
+            --external-checks-dir /repo/.checkov/custom_policies
         """
       }
     }
-  }
 
+  }
   post {
     always {
       echo "Static validation completed."

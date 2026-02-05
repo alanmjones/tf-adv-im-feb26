@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    AWS_REGION = 'us-east-1'
+    AWS_REGION = 'us-west-2'
     TF_IN_AUTOMATION = 'true'
     TF_INPUT = 'false'
   }

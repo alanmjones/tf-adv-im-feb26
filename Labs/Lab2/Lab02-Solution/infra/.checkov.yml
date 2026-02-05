@@ -1,0 +1,6 @@
+quiet: true
+download-external-modules: false
+framework:
+  - terraform
+external-checks-dir:
+  - .checkov/custom_policies
